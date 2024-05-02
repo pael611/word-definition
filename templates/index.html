@@ -1,0 +1,77 @@
+{% include 'header.html' %}
+<script>
+    {% if msg %}
+    alert("{{ msg }}")
+    {% endif %}
+
+
+    let words = {{ words | tojson }};
+    let word_list = [];
+    for (let i = 0; i < words.length; i++) {
+        word_list.push(words[i].word)
+    }
+
+    function find_word() {
+        let word = $('#input-word').val().toLowerCase().trim();
+        if (!word) {
+            alert('Please type a word');
+            return;
+        }
+        if (word_list.includes(word)) {
+            let row = $(`#word-${word}`);
+            row.addClass('highlight');
+            row.siblings().removeClass('highlight');
+            row[0].scrollIntoView();
+        } else {
+            window.location.href = `/detail/${word}?status_give=new`;
+        }
+    }
+</script>
+
+<link href='{{ url_for("static", filename="mystyle.css") }}' rel="stylesheet">
+
+
+<body>
+    <div class="wrap">
+        <div class="banner" onclick="window.location.href = '/'">
+        </div>
+
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-end">
+                <div class="search-box d-flex justify-content-center">
+                    <input id="input-word" class="form-control" style="margin-right: 0.5rem">
+                    <button class="btn btn-light" onclick="find_word()"><i class="fa fa-search"></i>SEARCH!</button>
+                </div>
+            </div>
+        </div>
+
+        <table class="table">
+            <thead class="thead-light">
+                <tr>
+                    <th scope="col" style="width:30%">WORD</th>
+                    <th scope="col">MEANING</th>
+
+                </tr>
+            </thead>
+            <tbody id="tbody-box">
+                {% for word in words %}
+                <tr id="word-{{word.word}}">
+                    <td>
+                        <a href="/detail/{{word.word}}?status_give=old">
+                            {{word.word}}
+                        </a>
+                    </td>
+                    <td>{{word.definition}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+
+    </div>
+    </div>
+</body>
+
+{% include 'footer.html'%}
+
+</html>

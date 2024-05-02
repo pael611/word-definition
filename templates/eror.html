@@ -1,0 +1,53 @@
+{% include 'header.html' %}
+<script>
+
+
+
+
+</script>
+
+<link href='{{ url_for("static", filename="mystyle.css") }}' rel="stylesheet">
+
+
+<body>
+    <div class="wrap">
+        <div class="banner" onclick="window.location.href = '/'">
+        </div>
+
+        <div class="container">
+
+
+            <div class="card text-center">
+                <div class="card-header">
+                    EROR!
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">We Found Some Eror</h5>
+                    <p class=" ">{{msg}}
+                    {% if definitions %}
+                    <span>, Do you mean : </span>
+                    {% for defs in definitions %}
+                    <a href="/detail/{{defs}}?status_give=new"><span class="bg-primary text-white rounded " style="padding: 1px;">{{defs}}</span></a>
+                    {% endfor %}
+                    {% endif %}
+                </p>
+                    <br>
+                    <a href="/" class="btn btn-primary">Go Back!</a>
+                </div>
+
+            </div>
+
+
+
+        </div>
+
+
+
+
+    </div>
+    </div>
+</body>
+
+{% include 'footer.html'%}
+
+</html>
